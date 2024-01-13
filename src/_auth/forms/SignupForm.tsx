@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -15,9 +14,11 @@ import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 import { z } from "zod";
-
+import { createUserAccount } from "@/lib/appwrite/api";
+import { useToast } from "@/components/ui/use-toast";
 
 const SignupForm = () => {
+  const { toast } = useToast();
   const isLoading = false;
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -31,10 +32,12 @@ const SignupForm = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof SignupValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof SignupValidation>) {
+    const newUser = await createUserAccount(values);
+
+    if (!newUser) {
+      return toast({title: "Sign pu  failed. Please try again",});
+    }
   }
 
   return (
@@ -52,7 +55,6 @@ const SignupForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-5 w-full mt-4"
         >
-          
           <FormField
             control={form.control}
             name="name"
@@ -117,8 +119,13 @@ const SignupForm = () => {
             )}
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2">
-            Already have an accout? 
-            <Link to="/sign-in" className="text-primary-500 text-small-semibold ml-1">Log in</Link>
+            Already have an accout?
+            <Link
+              to="/sign-in"
+              className="text-primary-500 text-small-semibold ml-1"
+            >
+              Log in
+            </Link>
           </p>
         </form>
       </div>
