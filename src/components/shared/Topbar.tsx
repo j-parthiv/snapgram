@@ -27,7 +27,7 @@ const Topbar = () => {
         <div className="flex gap-4">
           <Button
             variant="ghost"
-            className="shad_button_ghost"
+            className="shad-button_ghost"
             onClick={() => signOut()}
           >
             <img src="./assets/icons/logout.svg" alt="logout" />

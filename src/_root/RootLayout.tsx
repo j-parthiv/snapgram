@@ -1,4 +1,4 @@
-import BottomBar from "@/components/shared/BottomBar";
+import BottomBar from "@/components/shared/Bottombar";
 import LeftSidebar from "@/components/shared/LeftSidebar";
 import Topbar from "@/components/shared/Topbar";
 import React from "react";
