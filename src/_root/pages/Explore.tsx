@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../components/ui/input";
 import SearchResults from "../../components/shared/SearchResults";
 import GridPostList from "@/components/shared/GridPostList";
@@ -34,9 +34,9 @@ const Explore = () => {
   }
 
   const shouldShowSearchResults = searchValue !== "";
-  const shouldShowPosts =
-    !shouldShowSearchResults &&
-    posts?.pages.every((item) => item.documents.length === 0);
+  const shouldShowPosts = !shouldShowSearchResults && 
+    posts.pages.every((item) => item.documents.length === 0);
+
   return (
     <div className="explore-container">
       <div className="explore-inner_container">

@@ -1,8 +1,6 @@
 import { ID, Query } from "appwrite";
 import { INewUser, INewPost, IUpdatePost } from "@/types";
-import { account, appwriteConfig, avatars, storage } from "./config";
-import { error } from "console";
-import { databases } from "./config";
+import { account, appwriteConfig, avatars, storage } from "./config";import { databases } from "./config";
 
 export async function createUserAccount(user: INewUser){
 try {
@@ -294,7 +292,7 @@ export async function createPost(post: INewPost) {
       const tags = post.tags?.replace(/ /g, "").split(",") || [];
   
       // Create post
-      const newPost = await databases.updateDocument(
+      const updatedPost = await databases.updateDocument(
         appwriteConfig.databaseId,
         appwriteConfig.postCollectionId,
         post.postId,
@@ -307,12 +305,12 @@ export async function createPost(post: INewPost) {
         }
       );
   
-      if (!updatePost) {
+      if (!updatedPost) {
         await deleteFile(post.imageId);
         throw Error;
       }
   
-      return updatePost;
+      return updatedPost;
     } catch (error) {
       console.log(error);
     }
