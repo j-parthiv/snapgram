@@ -5,9 +5,10 @@ import {
   useInfiniteQuery,
   useQuery,
 } from '@tanstack/react-query'
-import { createUserAccount, singInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser } from '../appwrite/api'
+import { createUserAccount, singInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById } from '../appwrite/api'
 import { INewUser, INewPost } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
+import PostCard from '@/components/shared/PostCard'
 
 
 export const useCreateUserAccount = () =>{
@@ -93,3 +94,10 @@ export const useCreatePost = () => {
     })
   }
 
+export const useGetPostById = (postId: string) =>{
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_POST_BY_ID, postId],
+    queryFn:() => getPostById(postId),
+    enabled: !!postId
+  })
+}

@@ -247,3 +247,20 @@ export async function createPost(post: INewPost) {
     }
 
   }
+
+
+  // Get Post by ID
+
+  export async function getPostById(postId: string){
+    try {
+      const post =  await databases.getDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        postId
+      )
+
+      return post;
+    } catch (error) {
+      console.log(error);
+    }
+  }
