@@ -11,6 +11,7 @@ export const INITIAL_USER = {
 };
 import { useNavigate } from "react-router-dom";
 
+
 const INITIAL_STATE = {
   user: INITIAL_USER,
   isLoading: false,
@@ -18,6 +19,15 @@ const INITIAL_STATE = {
   setUser: () => {},
   setIsAuthenticated: () => {},
   checkAuthUser: async () => false as boolean,
+};
+
+type IContextType = {
+  user: IUser;
+  isLoading: boolean;
+  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  isAuthenticated: boolean;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  checkAuthUser: () => Promise<boolean>;
 };
 
 const AuthContext = createContext<IContextType>(INITIAL_STATE);
