@@ -1,5 +1,5 @@
 import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
-import { Divide, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useParams, Link } from "react-router-dom";
 import { formatDateString } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
