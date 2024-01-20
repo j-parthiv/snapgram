@@ -73,7 +73,7 @@ export const useCreatePost = () => {
     })
   }
 
-  export const useDeleteSavePost = () =>{
+  export const useDeleteSavedPost = () =>{
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -92,3 +92,4 @@ export const useCreatePost = () => {
         queryFn: getCurrentUser
     })
   }
+
