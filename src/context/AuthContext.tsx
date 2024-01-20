@@ -1,4 +1,4 @@
-import { IUser, IContextType } from "@/types";
+import { IUser } from "@/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser } from "@/lib/appwrite/api";
 export const INITIAL_USER = {
