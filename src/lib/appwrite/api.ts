@@ -1,5 +1,5 @@
 import { ID, Query } from "appwrite";
-import { INewUser, INewPost } from "@/types";
+import { INewUser, INewPost, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, storage } from "./config";
 import { error } from "console";
 import { databases } from "./config";
@@ -249,8 +249,7 @@ export async function createPost(post: INewPost) {
   }
 
 
-  // Get Post by ID
-
+// Get Post by ID
   export async function getPostById(postId: string){
     try {
       const post =  await databases.getDocument(
@@ -260,6 +259,77 @@ export async function createPost(post: INewPost) {
       )
 
       return post;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+// Update post by ID
+  export async function updatePost(post: IUpdatePost) {
+    const hasFileToUpdate = post.file.length > 0;
+
+    try {
+      let image = {
+        imageUrl: post.imageUrl,
+        imageId: post.imageId,
+      }
+
+      if(hasFileToUpdate){
+          // Upload file to appwrite storage
+        const uploadedFile = await uploadFile(post.file[0]);
+
+        if (!uploadedFile) throw Error;
+
+        // Get file url
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+
+      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id }
+      }
+    
+      // Convert tags into array
+      const tags = post.tags?.replace(/ /g, "").split(",") || [];
+  
+      // Create post
+      const newPost = await databases.updateDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        post.postId,
+        {
+          caption: post.caption,
+          imageUrl: image.imageUrl,
+          imageId: image.imageId,
+          location: post.location,
+          tags: tags,
+        }
+      );
+  
+      if (!updatePost) {
+        await deleteFile(post.imageId);
+        throw Error;
+      }
+  
+      return updatePost;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Delete Post
+
+  export async function deletePost(postId: string, imageId: string){
+    if(!postId || !imageId) throw Error;
+
+    try {
+      await databases.deleteDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        postId
+      )
+      return {status: 'ok'}
     } catch (error) {
       console.log(error);
     }
